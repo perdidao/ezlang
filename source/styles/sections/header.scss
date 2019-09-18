@@ -1,0 +1,24 @@
+.header{
+    position:fixed;
+    z-index:1001;
+    top:0;
+    left:0;
+    width:100%;
+    padding:rfs(20px) 2%;
+    background-color:$black;
+    color:$white;
+
+	display:flex;
+	align-items:center;
+    justify-content:space-between;
+
+    
+    select{
+        display:inline-block;
+        width:rfs(200px);
+        height:rfs(40px);
+        background-color:$white;
+        font-size:rfs(18px);
+        color:$black;
+    }
+}

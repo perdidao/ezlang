@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta name="robots" content="index, follow">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>EZLang</title>
+    <meta name="description" content="{{ DESCRIÇÃO }}">
+    <meta name="author" content="Lucas Almeida">
+    <meta name="generator" content="{{ TÍTULO }}">
+    <meta name="theme-color" content="#1F1F20">
+
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <link rel="icon" href="favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+
+    <link rel="stylesheet" href="static/styles/main.css">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-000000000-0"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-000000000-0');
+    </script>
+</head>
+<body>
+
+	<nav class="header">
+		
+        <p data-translate data-pt-br="Bom dia, Jarbas" data-en-us="Good Morning, Jarbas" data-es-es="Buenos días, Jarbas">
+            Bom dia, Jarbas
+        </p>
+        
+        <select id="lang">
+            <option value="pt-br">Português</option>
+            <option value="en-us">English</option>
+            <option value="es-es">Español</option>
+        </select>
+        
+    </nav>
+		
+	<section class="wrapper">
+
+		<h2 data-translate data-pt-br="Conheça nossos produtos" data-en-us="See our products" data-es-es="Conoce nuestros productos">
+			Conheça nossos produtos
+		</h2>
+
+	</section>
+
+	<div class="loading"></div>
+
+    <script src="static/scripts/vendor/jquery.min.js"></script>
+    <script src="static/scripts/ezlang.min.js"></script>
+    <script src="static/scripts/main.min.js"></script>
+    
+    <!-- Livereload -->
+    <script src="//localhost:35729/livereload.js"></script>
+    
+</body>
+</html>
