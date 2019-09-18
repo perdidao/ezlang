@@ -31,9 +31,7 @@ $.fn.ezlang = function(options = {}){
         
         var items = $('[data-translate]');
 
-        $.when($.get('lang/'+lang+'.json')).then(function(data){
-            
-            ezlang[lang] = data;
+        function fillElements(items){
 
             $.each(items, function(i,item){
                 var $elem = $(item),
@@ -52,9 +50,25 @@ $.fn.ezlang = function(options = {}){
                     $elem.html(innerContent).show();
                 }
             });
+            
+        }
 
-            $('.loading').fadeOut('loading');
+        if(ezlang[lang] == undefined){
 
-        })
+            $.when($.get('lang/'+lang+'.json')).then(function(data){
+                
+                ezlang[lang] = data;
+
+                fillElements(items);
+
+                $('.loading').fadeOut('loading');
+
+            })
+
+        } else {
+
+            fillElements(items);
+
+        }
     }
 }
