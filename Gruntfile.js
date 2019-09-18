@@ -38,15 +38,15 @@ module.exports = function(grunt){
 				    style: 'compact'
 				},
 				files: {
-				    'static/styles/main.css': 'source/styles/main.scss'
+				    'static/styles/main.min.css': 'source/styles/main.scss'
 				}
 			},
 			dist: {
 				options: {
-				    style: 'compact'
+				    style: 'minified'
 				},
 				files: {
-				    'dist/static/styles/main.css': 'source/styles/main.scss'
+				    'dist/static/styles/main.min.css': 'source/styles/main.scss'
 				}
 			},
 		},
@@ -61,28 +61,33 @@ module.exports = function(grunt){
 				]
 			},
 			dev: {
-				src: 'static/styles/main.css'
+				src: 'static/styles/main.min.css'
 			},
 			dist: {
-				src: 'dist/static/styles/main.css'
+				src: 'dist/static/styles/main.min.css'
 			}
 		},
 		
 		uglify: {
-			options: {
-				mangle:false,
-				beautify:false,
-			},
-			dev: {
+            dev: {
+                options: {
+                    mangle:false,
+                    beautify:true,
+                },
 				files: {
-					'static/scripts/main.min.js': ['source/scripts/main.js'],
+                    'static/scripts/main.min.js': ['source/scripts/main.js'],
 					'static/scripts/ezlang.min.js': ['source/scripts/ezlang.js']
 				}
 			},
 			dist: {
+                options: {
+                    mangle:true,
+                    beautify:false,
+                },
 				files: {
 					'dist/static/scripts/main.min.js': ['source/scripts/main.js'],
-					'dist/static/scripts/ezlang.min.js': ['source/scripts/ezlang.js']
+					'dist/static/scripts/ezlang.min.js': ['source/scripts/ezlang.js'],
+					'dist/ezlang.min.js': ['source/scripts/ezlang.js']
 				}
 			}
 		},
@@ -157,7 +162,7 @@ module.exports = function(grunt){
 							'favicon.png',
 							'index.html'
 						]
-					}
+                    }
 				]
             }
 		},
