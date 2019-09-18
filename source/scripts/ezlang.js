@@ -1,8 +1,16 @@
-$.fn.ezlang = function(){
-    
+$.fn.ezlang = function(options = {}){
     window.scope = {
         lang: localStorage.getItem('lang')
     };
+
+    var fallback = (options.fallback) ? options.fallback : 'pt-br',
+        silent = (options.silent) ? options.silent : false;
+
+    $.each(options.languages,function(i,item){
+        $.get('lang/'+item+'.json',function(res){
+            return scope[item] = res;
+        });
+    });
 
     /* Set selected language globally */
     $('#lang').on('change', function(){
@@ -20,16 +28,32 @@ $.fn.ezlang = function(){
 
     /* Translates */
     function translate(lang){
-        var items = $('[data-translate]');
-        $.each(items, function(i,item){
-            var $elem = $(item);
-                innerContent = $elem.data(lang);
+        setTimeout(function(){
             
-            if(innerContent != '' && innerContent != undefined){
-                $elem.html(innerContent);
-            }
-        });
-        $('.loading').fadeOut('loading');
-    }
+            var items = $('[data-translate]');
+            
+            $.each(items, function(i,item){
+                var $elem = $(item),
+                    term = $elem.data('term'),
+                    singleSilent = $elem.data('silent'),
+                    innerContent = innerContent = scope[lang][term];
+                
+                if(innerContent != '' && innerContent != undefined){ /* If item has translation */
+                    $elem.html(innerContent).show();
+                } else if (singleSilent != undefined || silent) { /* If items that has no translation are set to be hidden */
+                    if(innerContent == '' || innerContent == undefined){
+                        $elem.hide();
+                    }
+                } else { /* Fallback translation */
+                    innerContent = scope[fallback][term];
+                    $elem.html(innerContent).show();
+                }
+            });
+            
+            setTimeout(function(){
+                $('.loading').fadeOut('loading');
+            },200);
 
+        },100);
+    }
 }

@@ -70,8 +70,8 @@ module.exports = function(grunt){
 		
 		uglify: {
 			options: {
-				mangle: false,
-				beautify:false,
+				mangle:false,
+				beautify:true,
 			},
 			dev: {
 				files: {
@@ -179,7 +179,7 @@ module.exports = function(grunt){
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-postcss');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-uglify-es');
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-copy');
