@@ -1,42 +1,45 @@
 $.fn.ezlang = function(options = {}){
-    window.scope = {
-        lang: localStorage.getItem('lang')
+    var currentLang = localStorage.getItem('lang')
+
+    window.ezlang = {
+        lang: (currentLang != undefined) ? currentLang : 'pt-br'
     };
 
     var fallback = (options.fallback) ? options.fallback : 'pt-br',
         silent = (options.silent) ? options.silent : false;
 
-    $.each(options.languages,function(i,item){
-        $.get('lang/'+item+'.json',function(res){
-            return scope[item] = res;
-        });
-    });
-
     /* Set selected language globally */
     $('#lang').on('change', function(){
         var lang = $(this).val();
         localStorage.setItem('lang',lang);
-        scope.lang = lang;
-        translate(scope.lang);
+        ezlang.lang = lang;
+        translate(ezlang.lang);
     });
 
     /* Check current language on startup */
     $(document).ready(function(){	
-        $('#lang').val(scope.lang);
-        translate(scope.lang);
+        $('#lang').val(ezlang.lang);
+        
+        $.when($.get('lang/'+fallback+'.json')).then(function(data){
+            ezlang[fallback] = data;
+            translate(ezlang.lang);
+        });
     });
 
     /* Translates */
     function translate(lang){
-        setTimeout(function(){
+        
+        var items = $('[data-translate]');
+
+        $.when($.get('lang/'+lang+'.json')).then(function(data){
             
-            var items = $('[data-translate]');
-            
+            ezlang[lang] = data;
+
             $.each(items, function(i,item){
                 var $elem = $(item),
                     term = $elem.data('term'),
                     singleSilent = $elem.data('silent'),
-                    innerContent = innerContent = scope[lang][term];
+                    innerContent = ezlang[lang][term];
                 
                 if(innerContent != '' && innerContent != undefined){ /* If item has translation */
                     $elem.html(innerContent).show();
@@ -45,15 +48,13 @@ $.fn.ezlang = function(options = {}){
                         $elem.hide();
                     }
                 } else { /* Fallback translation */
-                    innerContent = scope[fallback][term];
+                    innerContent = ezlang[fallback][term];
                     $elem.html(innerContent).show();
                 }
             });
-            
-            setTimeout(function(){
-                $('.loading').fadeOut('loading');
-            },200);
 
-        },100);
+            $('.loading').fadeOut('loading');
+
+        })
     }
 }
