@@ -24,6 +24,7 @@ $.fn.ezlang = function(options = {}){
             ezlang[fallback] = data;
             translate(ezlang.lang);
         });
+
     });
 
     /* Translates */
@@ -38,18 +39,32 @@ $.fn.ezlang = function(options = {}){
                     term = $elem.data('term'),
                     singleSilent = $elem.data('silent'),
                     innerContent = ezlang[lang][term];
-                
-                if(innerContent != '' && innerContent != undefined){ /* If item has translation */
-                    $elem.html(innerContent).show();
-                } else if (singleSilent != undefined || silent) { /* If items that has no translation are set to be hidden */
-                    if(innerContent == '' || innerContent == undefined){
-                        $elem.hide();
+
+                if($elem.data('translate') == 'dynamic'){
+
+				    var dynamicContent = $elem.data(lang);
+		
+                    if(dynamicContent != '' && dynamicContent != undefined){
+                        $elem.html(dynamicContent);
                     }
-                } else { /* Fallback translation */
-                    innerContent = ezlang[fallback][term];
-                    $elem.html(innerContent).show();
+
+                } else {
+                
+                    if(innerContent != '' && innerContent != undefined){ /* If item has translation */
+                        $elem.html(innerContent).show();
+                    } else if (singleSilent != undefined || silent) { /* If items that has no translation are set to be hidden */
+                        if(innerContent == '' || innerContent == undefined){
+                            $elem.hide();
+                        }
+                    } else { /* Fallback translation */
+                        innerContent = ezlang[fallback][term];
+                        $elem.html(innerContent).show();
+                    }
+
                 }
             });
+
+            $('.loading').fadeOut('loading');
             
         }
 
@@ -60,8 +75,6 @@ $.fn.ezlang = function(options = {}){
                 ezlang[lang] = data;
 
                 fillElements(items);
-
-                $('.loading').fadeOut('loading');
 
             })
 
